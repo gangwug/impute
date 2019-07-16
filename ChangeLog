@@ -1,0 +1,6 @@
+Changes for package impute
+
+Version 1.31.1 (2012-06-07)
+  Changes from previous version
+  - Increased work array sizes in allknnimp.R that caused segfaults in
+	some cases (thanks to Dustin Lennon <dustin.lennon@gmail.com>)

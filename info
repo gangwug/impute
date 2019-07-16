@@ -1,0 +1,41 @@
+\begin{description}
+\item[K-Nearest Neighbor] In the other (default) option --- missing
+  values are imputed using a $k$-nearest neighbor average in gene
+  space (default $k=10$):
+  \begin{enumerate}
+  \item For each gene $i$ having at least one missing value:
+    \begin{enumerate}
+    \item Let $S_i$ be the samples for which  gene $i$  has no missing
+values
+    \item find the $k$ nearest neighbors to gene $i$, using only
+      samples $S_i$ to compute the Euclidean distance. When computing
+      the Euclidean distances, other genes may have missing values for
+      some of the samples $S_i$; the distance is averaged over the
+      non-missing entries in each comparison.
+    \item impute the missing sample values in gene $i$, using the  averages
+of
+      the non-missing entries for the corresponding sample
+      from the $k$ nearest neighbors.
+    \end{enumerate}
+  \item If a gene still has missing values after the above steps,
+    impute the missing values using the average (non-missing)
+    expression for that gene.
+  \end{enumerate}
+
+If the number of genes is large, the near-neighbor computations above can
+take too long. To overcome this, we combine the K-Nearest Neighbor
+imputation algorithm  with a {\bf Recursive Two-Means Clustering} procedure:
+\begin{enumerate}
+\item If number of genes $p$ is greater than $p_{max}$ (default 1500):
+  \begin{enumerate}
+  \item Run a two-means clustering algorithm in gene space, to divide
+    the genes into two more homogeneous groups. The distance calculations
+    use averages over non-missing entries, as do the mean
+    calculations.
+  \item Form two smaller expression arrays, using the two subsets of genes
+found in (a). For each of these, recursively repeat step 1.
+  \end{enumerate}
+\item If $p$ is less than $p_{max}$, impute the missing genes using
+K-Nearest-Neighbor averaging.
+\end{enumerate}
+\end{description}
